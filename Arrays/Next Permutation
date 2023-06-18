@@ -1,0 +1,46 @@
+// Brute Force
+
+1) Generate all permutations in sorted order
+2) Linear Search For Given arr
+3) Next Index Array will be your answer or if it doesnot exist first array will be your answer.
+
+// Better Soln
+
+There is better soln for c++ user you can use stl
+
+#include <bits/stdc++.h> 
+vector<int> nextPermutation(vector<int> &permutation, int n)
+{
+    next_permutation(permutation.begin(),permutation.end());
+    return permutation;
+}
+
+// Optimal Solution
+
+#include <bits/stdc++.h> 
+vector<int> nextPermutation(vector<int> &perm, int n)
+{
+    int ind = -1;
+
+    for(int i=n-2; i>=0; i--) {
+        if(perm[i] < perm[i+1]) {
+            ind =  i;
+            break;
+        }
+    }
+
+    if(ind == -1) {
+        reverse(perm.begin(),perm.end());
+        return perm;
+    }
+
+    for(int i=n-1; i>ind; i--) {
+        if(perm[i] > perm[ind]) {
+            swap(perm[i],perm[ind]);
+            break;
+        }
+    }
+
+    reverse(perm.begin() + ind + 1, perm.end());
+    return perm;
+}
