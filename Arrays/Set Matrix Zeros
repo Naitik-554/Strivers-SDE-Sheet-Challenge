@@ -1,0 +1,129 @@
+// Brute Force - 1
+
+#include <bits/stdc++.h>
+
+void setZeros(vector<vector<int>> &matrix)
+{
+	int n = matrix.size();
+	int m = matrix[0].size();
+	vector<vector<int>> temp = matrix;
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(matrix[i][j] == 0) {
+				for(int x=0; x<n; x++) {
+					temp[x][j] = 0;
+				}
+				for(int x=0; x<m; x++) {
+					temp[i][x] = 0;
+				}
+			}
+		}
+	}
+	matrix = temp;
+}
+
+// Brute Force - 2
+
+#include <bits/stdc++.h>
+
+void setZeros(vector<vector<int>> &matrix)
+{
+	int n = matrix.size();
+	int m = matrix[0].size();
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(matrix[i][j] == 0) {
+				for(int x=0; x<n; x++) {
+					if(matrix[x][j] != 0)
+						matrix[x][j] = -1;
+				}
+				for(int x=0; x<m; x++) {
+					if(matrix[i][x] != 0)
+						matrix[i][x] = -1;
+				}
+			}
+		}
+	}
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(matrix[i][j] == -1) {
+				matrix[i][j] = 0;
+			}
+		}
+	}
+}
+
+
+// Better Solution
+
+#include <bits/stdc++.h>
+
+void setZeros(vector<vector<int>> &matrix)
+{
+	int n = matrix.size();
+	int m = matrix[0].size();
+	
+	vector<bool> rows(n,0);
+	vector<bool> cols(m,0); 
+
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(matrix[i][j] == 0) {
+				rows[i] = 1;
+				cols[j] = 1;
+			}
+		}
+	}
+
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(rows[i] == 1 || cols[j] == 1) {
+				matrix[i][j] = 0;
+			}
+		}
+	}
+}
+
+
+// Optimal Solution
+
+#include <bits/stdc++.h>
+
+void setZeros(vector<vector<int>> &matrix)
+{
+	int n = matrix.size();
+	int m = matrix[0].size();
+	int col0 = 1;
+	
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
+			if(matrix[i][j] == 0) {
+				matrix[i][0] = 0;
+
+				if(j != 0)
+					matrix[0][j] = 0;
+				else 
+					col0 = 0;
+			}
+		}
+	}
+
+	for(int i=1; i<n; i++) {
+		for(int j=1; j<m; j++) {
+			if(matrix[i][0] == 0 || matrix[0][j] == 0) {
+				matrix[i][j] = 0;
+			}
+		}
+	}
+
+	if(matrix[0][0] == 0) {
+		for(int i=0; i<m; i++) {
+			matrix[0][i] = 0;
+		}
+	}
+	if(col0 == 0) {
+		for(int i=0; i<n; i++) {
+			matrix[i][0] = 0;
+		}
+	}
+}
