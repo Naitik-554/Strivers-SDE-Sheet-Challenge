@@ -1,0 +1,26 @@
+// Better Soln
+
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+  int freq[n + 1] = {0};
+  int mis = 0, rep = 0;
+  for (int i = 0; i < n; i++) {
+    freq[arr[i]] += 1;
+	}
+
+	for(int i=0; i<=n; i++) {
+		if(freq[i] == 2) {
+			mis = i;
+		}
+		if(freq[i] == 0) {
+			rep = i;
+		}
+	}
+
+	pair<int,int> ans = make_pair(rep,mis);
+	return ans;
+}
+
+
