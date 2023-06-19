@@ -1,0 +1,14 @@
+If you are selling on ith day then you must have bought on the minimum price from (1 to (i-1))th day.
+
+#include <bits/stdc++.h> 
+int maximumProfit(vector<int> &prices){
+    int n = prices.size();
+    int mini = prices[0], profit = 0;
+    int cost = 0;
+    for(int i=1; i<n; i++) {
+        cost = prices[i] - mini;
+        profit = max(profit, cost);
+        mini = min(mini, prices[i]);
+    }
+    return profit;
+}
