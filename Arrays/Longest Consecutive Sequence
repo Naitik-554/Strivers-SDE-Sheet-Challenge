@@ -1,0 +1,55 @@
+// Better Soln
+
+#include <bits/stdc++.h>
+
+int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
+    if(arr.size() == 0) return 0;
+    sort(arr.begin(),arr.end());
+    int lastSmaller = INT_MIN;
+    int cnt = 0;
+    int longest = 1;
+
+    for(int i=0; i<n; i++) {
+        if(arr[i]-1 == lastSmaller) {
+            cnt += 1;
+            lastSmaller = arr[i];
+        }
+        else if(lastSmaller != arr[i]) {
+            cnt = 1;
+            lastSmaller = arr[i];
+        }
+        longest = max(longest,cnt);
+    }
+
+    return longest;
+}
+
+T.C = O(NlogN)
+S.C = O(1)
+
+// Optimal (Maybe)
+
+#include <bits/stdc++.h>
+
+int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
+    if(n == 0) return 0;
+    int cnt = 0;
+    int longest = 1;
+    unordered_set<int> st;
+    for(int i=0; i<n; i++) {
+        st.insert(arr[i]);
+    }
+
+    for(auto it : st) {
+        if(st.find(it-1) == st.end()) {
+            cnt = 1;
+            int num = it;
+            while(st.find(num+1) != st.end()) {
+                num = num+1;
+                cnt = cnt + 1;
+            }
+            longest = max(longest,cnt);
+        }
+    }
+    return longest;
+}
