@@ -1,0 +1,37 @@
+// With Dummy Node
+
+#include <bits/stdc++.h>
+Node<int>* sortTwoLists(Node<int>* first, Node<int>* second)
+{
+    Node<int> *dummy = new Node<int>(-1);
+    Node<int> *track = dummy;
+    Node<int> *head1 = first;
+    Node<int> *head2 = second;
+
+    while(head1 != NULL && head2 != NULL) {
+        if(head1->data <= head2->data) {
+            track->next = head1;
+            track = track->next;
+            head1 = head1->next;
+        }
+        else {
+            track->next = head2;
+            track = track->next;
+            head2 = head2->next; 
+        }
+    }
+
+    while(head1 != NULL) {
+        track->next = head1;
+        track = track->next;
+        head1 = head1->next;
+    }
+
+    while(head2 != NULL) {
+        track->next = head2;
+        track = track->next;
+        head2 = head2->next; 
+    }
+
+    return dummy->next;
+}
