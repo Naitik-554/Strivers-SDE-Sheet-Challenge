@@ -1,0 +1,32 @@
+// Using Map (Hashing)
+
+#include<bits/stdc++.h>
+bool detectCycle(Node *head)
+{
+	map<int,bool> mpp;
+    Node* temp = head;
+
+    while(true) {
+        if(temp == NULL) return false;
+        if(mpp[temp->data] == true) return true;
+        mpp[temp->data] = true;
+        temp = temp->next;
+    }
+}
+
+// Using Slow and Fast Pointers
+
+bool detectCycle(Node *head)
+{
+	if(head == NULL) return false;
+    Node* fast = head;
+    Node* slow = head;
+
+    while(fast->next != NULL && fast->next->next != NULL) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow) return true;
+    }
+
+    return false;
+}
