@@ -1,0 +1,54 @@
+// Naive Soln
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+    // Write your code here.
+    LinkedListNode<int>*curr = head;
+    unordered_map<LinkedListNode<int>*, LinkedListNode<int>*>mp;
+    while(curr!=NULL){
+        LinkedListNode<int>*temp = new LinkedListNode<int>(curr->data);
+        mp[curr]=temp;
+        curr=curr->next;
+    }
+    curr=head;
+    while(curr!=NULL){
+        LinkedListNode<int>*temp = mp[curr];
+        temp->next = mp[curr->next];
+        temp->random = mp[curr->random];
+        curr=curr->next;
+    }
+    return mp[head];
+}
+
+// Optimal Soln
+
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+    LinkedListNode<int> *itr=head;
+    while(itr!=NULL) {  
+        LinkedListNode<int> *front=itr->next;
+        LinkedListNode<int> *dummy=new LinkedListNode<int> (itr->data);
+        dummy->next=itr->next;
+        itr->next=dummy;
+        itr=front;
+    }
+    
+    itr=head;
+    while(itr!=NULL) {
+        itr->next->random=itr->random;
+        itr=itr->next->next;
+    }
+
+    itr=head;
+    LinkedListNode<int>* copy=new LinkedListNode<int> (0);
+    LinkedListNode<int> *newnode=copy;
+    while(itr!=NULL) {
+        LinkedListNode<int> *front=itr->next->next;
+        copy->next=itr->next;
+        itr->next=front;
+        itr=front;
+        copy=copy->next;
+    }
+
+    return newnode->next;
+
+}
