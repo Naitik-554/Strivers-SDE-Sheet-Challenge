@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+vector<int> nextSmallerElement(vector<int> &arr, int n)
+{
+    stack<int> st;
+    st.push(-1);
+    vector<int> nse(n);
+
+    for(int i=n-1; i>=0; i--) {
+        int ele = arr[i];
+        while(st.top() >= ele) {
+            st.pop();
+        }
+        nse[i] = st.top();
+        st.push(ele);
+    }
+    return nse;
+}
