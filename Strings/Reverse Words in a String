@@ -1,0 +1,22 @@
+string reverseString(string &str){
+	int n = str.size();
+	int i = n-1;
+	int j = n-1;
+	string ans = "";
+
+	while(j >= 0) {
+		while(str[j]!=' ' && j>=0) {
+			j--;
+		}
+		int s = j+1;
+		for(int k=s; k<=i; k++) {
+			ans += str[k];
+			if(k == i) {
+				ans+=' ';
+			}
+		}
+		j--;
+		i=j;
+	}	
+	return ans;
+}
