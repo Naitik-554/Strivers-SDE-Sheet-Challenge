@@ -1,0 +1,90 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+void swap(int *a, int *b) {
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+int partition(int *arr, int p, int q) {
+    int pivot = arr[p];
+    int i = p;
+    for(int j=p+1; j<=q; j++) {
+        if(arr[j] <= pivot) {
+            i++;
+            swap(arr[i],arr[j]);
+        }
+    }
+    swap(arr[i],arr[p]);
+    return i;
+}
+
+void qs(int *arr, int p, int q) {
+    if(p<q) {
+        int m = partition(arr,p,q);
+        qs(arr,p,m-1);
+        qs(arr,m+1,q);
+    }
+}
+
+void merge(int *arr, int s, int e) {
+    int mid = (s+e)/2;
+    int len1 = mid-s+1;
+    int len2 = e-mid;
+    int *first = new int[len1];
+    int *second = new int[len2];
+    // copy the values in two arrays
+    int k = s;
+    for(int i=0; i<len1; i++) {
+        first[i] = arr[k++];
+    }
+    
+    k = mid+1;
+    for(int i=0; i<len2; i++) {
+        second[i] = arr[k++];
+    }
+    
+    int i=0, j=0;
+    k = s;
+    
+    while(i<len1 && j<len2) {
+        if(first[i] < second[j]) {
+            arr[k++] = first[i++];
+        }
+        else {
+            arr[k++] = second[j++];
+        }
+    }
+    
+    while(i<len1) {
+        arr[k++] = first[i++];
+    }
+    
+    while(j<len2) {
+        arr[k++] = second[j++];
+    }
+    
+}
+
+void ms(int *arr, int s, int e) {
+    if(s < e) {
+        int mid = (s+e)/2;
+        ms(arr,s,mid);
+        ms(arr,mid+1,e);
+        merge(arr,s,e);
+    }
+}
+
+int main() {
+    int n = 5;
+    int arr[n] = {2,4,1,6,9};
+    ms(arr,0,n-1);
+    for(int i=0; i<n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}
